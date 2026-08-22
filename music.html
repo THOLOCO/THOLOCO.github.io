@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>♪ TOLOC ROOM 点唱机 ♪</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+<body>
+
+<!-- ========== 顶部跑马灯 ========== -->
+<table width="960" border="0" cellpadding="0" cellspacing="0" align="center">
+  <tr>
+    <td class="marquee-bar">
+      <marquee behavior="scroll" direction="left" scrollamount="3" onmouseover="this.stop()" onmouseout="this.start()">
+        ★ TOLOC ROOM 点唱机 ★ 挑一首，陪你度过这个下午 ★ 戴耳机效果更佳 ★ 建议使用极其先进的 IE6 收听 ★
+      </marquee>
+    </td>
+  </tr>
+</table>
+
+<!-- ========== 标题 ========== -->
+<table width="960" border="0" cellpadding="8" cellspacing="0" align="center">
+  <tr>
+    <td valign="top" align="center">
+      <font size="6" color="#FFFF00"><b><span class="sparkle">♪</span> TOLOC ROOM 点唱机 <span class="sparkle">♪</span></b></font>
+      <br />
+      <font size="4" color="#CCCCCC"><i>—— music is the amber of time ——</i></font>
+    </td>
+  </tr>
+</table>
+
+<hr color="#F8F8DC" size="2" />
+
+<!-- ========== 点唱机主体 ========== -->
+<table width="960" border="1" bordercolor="#094981" cellpadding="8" cellspacing="0" align="center">
+  <tr>
+    <td valign="top" class="content" align="center">
+
+      <div class="music-player">
+
+        <div class="track-info">
+          <marquee scrollamount="3" id="track-marquee">等待播放…点一首歌吧</marquee>
+        </div>
+
+        <!-- 曲目列表：把名字和数量改成你自己的，JS 里的 tracks 也要同步改 -->
+        <ul class="track-list" id="track-list">
+          <li><a href="javascript:void(0)" onclick="pickTrack(0)" class="track-link">1. 示例曲目一（替换成你的歌）</a></li>
+          <li><a href="javascript:void(0)" onclick="pickTrack(1)" class="track-link">2. 示例曲目二（替换成你的歌）</a></li>
+          <li><a href="javascript:void(0)" onclick="pickTrack(2)" class="track-link">3. 示例曲目三（替换成你的歌）</a></li>
+        </ul>
+
+        <div class="player-controls">
+          <input type="button" value="上一首" onclick="prevTrack()" class="btn" />
+          <input type="button" value="播放" id="play-btn" onclick="togglePlay()" class="btn" />
+          <input type="button" value="下一首" onclick="nextTrack()" class="btn" />
+        </div>
+
+        <div class="player-hint">* 换歌直接点曲目列表即可 *</div>
+      </div>
+
+      <!-- bgsound 挂载点（IE6 专属背景音乐，勿删） -->
+      <div id="bgm-holder"></div>
+
+      <br />
+      <font size="2">
+        <a href="index.html">[ 返回首页 ]</a>
+      </font>
+    </td>
+  </tr>
+
+  <!-- 页脚 -->
+  <tr>
+    <td class="footer" align="center">
+      <hr color="#666666" size="1" />
+      <font size="2" color="#888888">
+        <span class="sparkle">★</span> © 2026 TOLOC <span class="sparkle">★</span>
+      </font>
+    </td>
+  </tr>
+</table>
+
+<script src="js/main.js" type="text/javascript"></script>
+<script type="text/javascript">
+/* 页面加载：自动播放第一首（只有 music.html 会执行） */
+pickTrack(0);
+</script>
+</body>
+</html>

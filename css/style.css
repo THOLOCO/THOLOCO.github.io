@@ -1,40 +1,146 @@
-/* CSS Document */
+/* ============================================================
+   镜花拾光 · style.css —— 兼容 Internet Explorer 6
+   铁律：不用 border-radius / box-shadow / opacity / rgba /
+   CSS动画 / flex / max-width / position:fixed / :hover(非a标签)
+   ============================================================ */
 
-```css
-/* ==============================
-   滚动字条
-   ============================== */
-
-#ticker {
-    width: 100%;
-    height: 26px;
-
-    line-height: 26px;
-
-    overflow: hidden;
-
-    background-color: #101020;
-
-    border-top: 1px solid #596080;
-    border-bottom: 1px solid #596080;
-
-    color: #bfc7ff;
-
-    font-family:
-        "MS Gothic",
-        "ＭＳ ゴシック",
-        "SimSun",
-        sans-serif;
-
-    font-size: 12px;
-
-    letter-spacing: 1px;
+/* ---------- 全局 ---------- */
+body {
+  background-color: #008080;   /* Win98 经典桌面 Teal，致敬 98 */
+  color: #FFFFFF;
+  font-family: SimSun, "宋体", serif;   /* 中文用宋体，IE6 最稳 */
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
 }
 
-#ticker marquee {
-    width: 100%;
-    height: 26px;
+a { color: #8FF7F3; }
+a:visited { color: #79E4D6; }
+a:hover { color: #D0FFF8; }
 
-    line-height: 26px;
+/* ---------- 跑马灯 ---------- */
+.marquee-bar {
+  background: #021E1E;
+  color: #7CF7F3;
+  font-size: 12px;
+  font-weight: bold;
 }
-```
+
+/* ---------- 侧边栏 / 导航（比背景深一号的青绿面板） ---------- */
+.sidebar { background: #0B3E3E; }
+
+.nav-item { background: #0B4A4A; border: 1px solid #40D9D9; }
+.nav-item a { display: block; text-decoration: none; }
+/* 注意：IE6 只认 a:hover，td 的 :hover 会被忽略（无害） */
+
+.content { background: #0A3333; }
+.footer { background: #111111; }
+
+/* ---------- 88×31 按钮占位 ---------- */
+.badge88 {
+  width: 88px;
+  height: 31px;
+  background: #000000;
+  border: 1px solid #40D9D9;
+  color: #7CF7F3;
+  font-size: 10px;
+  text-align: center;
+  line-height: 14px;
+  padding-top: 3px;
+}
+
+/* ---------- ★ 点唱机 ---------- */
+.music-player {
+  border: 2px outset #008080;   /* Win98 窗口质感边框 */
+  background: #000000;
+  padding: 10px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.player-title {
+  display: block;
+  color: #7CF7F3;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+/* 走字屏 */
+.track-info {
+  width: 100%;
+  height: 18px;
+  overflow: hidden;
+  background: #111111;
+  border: 1px inset #2F5E5E;
+  margin-bottom: 8px;
+}
+.track-info marquee { color: #AFFFF6; font-size: 12px; line-height: 18px; }
+
+/* 曲目列表 */
+.track-list { list-style: none; margin: 0 0 8px 0; padding: 0; }
+.track-list li { margin: 2px 0; }
+.track-link {
+  display: block;
+  text-decoration: none;
+  color: #AFFFF6;
+  font-size: 12px;
+  background: #0C3333;
+  border: 1px solid #0C6666;
+  padding: 3px 6px;
+  text-align: left;
+}
+.track-link:hover { color: #FFFFFF; background: #0F6A6A; }  /* a:hover，IE6 有效 */
+.track-link.playing { color: #FFFF00; font-weight: bold; background: #0C6666; }
+
+/* 控制按钮（outset/inset 边框是 IE6 时代经典质感） */
+.player-controls { margin: 6px 0 4px 0; }
+.player-controls .btn {
+  background: #0C6666;
+  color: #DFFFFF;
+  border: 2px outset #098080;
+  padding: 3px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  margin: 0 3px;
+  font-family: SimSun, "宋体", serif;
+}
+
+.player-hint { color: #666666; font-size: 10px; margin-top: 4px; }
+
+/* ---------- ★ 友情链接页 ---------- */
+.link-table { width: 100%; border: 0; }
+.link-card {
+  background: #0A3333;
+  border: 1px solid #098080;
+  padding: 6px;
+}
+.link-card img {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #7FF5F5;
+  vertical-align: middle;
+}
+.avatar-placeholder {
+  width: 50px;
+  height: 50px;
+  background: #0C6666;
+  border: 1px solid #7FF5F5;
+  color: #7CF7F3;
+  font-size: 10px;
+  text-align: center;
+  line-height: 50px;
+}
+.link-name { color: #FFFF00; font-weight: bold; font-size: 14px; }
+.link-desc { color: #CCCCCC; font-size: 12px; }
+.link-url { color: #888888; font-size: 12px; }
+
+/* 申请友链 */
+.apply-area {
+  background: #0B3E3E;
+  border: 1px dashed #40D9D9;   /* IE6 支持 dashed */
+  padding: 10px;
+  text-align: center;
+}
+.apply-desc { color: #CCCCCC; font-size: 12px; }
+.apply-email { color: #00FF00; font-weight: bold; }
