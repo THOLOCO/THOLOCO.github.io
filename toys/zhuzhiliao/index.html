@@ -222,6 +222,7 @@
   .ghlink:hover{ opacity:1; border-color:var(--accent); color:#ffcf9e; box-shadow:0 0 16px rgba(226,96,63,.25); }
   .ghlink.author{ top:calc(64px + env(safe-area-inset-top)); }
   .ghlink.install{ top:calc(104px + env(safe-area-inset-top)); cursor:pointer; }
+  .ghlink.back{ left:auto; top:calc(64px + env(safe-area-inset-top)); right:calc(20px + env(safe-area-inset-right)); }
 
   /* —— iOS 添加到主屏幕指引 —— */
   .installtip{
@@ -361,9 +362,8 @@
   <button id="autoBtn">自动甩</button>
 </div>
 
+<a class="ghlink back" href="../../toys.html" onclick="history.back(); return false;">← 返回上一页</a>
 <a class="ghlink" href="https://github.com/imsai-sh/zhuzhiliao" target="_blank" rel="noopener">开源 GitHub</a>
-<a class="ghlink author" href="https://www.imsai.cc/" target="_blank" rel="noopener">作者主页</a>
-<a class="ghlink install" id="installBtn" role="button">装进桌面</a>
 
 <!-- 无 JS 环境（含不执行 JS 的爬虫）能读到的唯一正文；正常用户不可见 -->
 <noscript>
@@ -1598,46 +1598,7 @@ function addWah(n){
 stEls.root.hidden = false;
 renderMine();
 
-/* —— Service Worker：安卓 Chrome 的安装提示以此为门槛，顺带离线可玩 —— */
-if('serviceWorker' in navigator && window.isSecureContext && location.protocol !== 'file:'){
-  navigator.serviceWorker.register('sw.js').catch(() => {});
-}
 
-/* —— 装进桌面（PWA 安装 / iOS 添加到主屏幕指引） —— */
-const installBtn = document.getElementById('installBtn');
-(function(){
-  const standalone = matchMedia('(display-mode: standalone)').matches
-                  || navigator.standalone === true;
-  if(standalone){ installBtn.style.display = 'none'; return; }  // 已在桌面 app 里
-  let deferredPrompt = null;
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    deferredPrompt = e;
-  });
-  window.addEventListener('appinstalled', () => { installBtn.style.display = 'none'; });
-  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent)
-             || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  let tip = null;
-  installBtn.addEventListener('click', async e => {
-    e.stopPropagation();
-    if(deferredPrompt){                  // Android / 桌面 Chrome：原生安装
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice.catch(() => {});
-      deferredPrompt = null;
-      installBtn.style.display = 'none';
-      return;
-    }
-    if(tip){ tip.remove(); tip = null; return; }
-    tip = document.createElement('div');
-    tip.className = 'installtip';
-    tip.innerHTML = isIOS
-      ? '用 Safari 打开本页<br>点分享 <b>&#x2191;</b> → 「添加到主屏幕」<br><span style="opacity:.6;font-size:12px">(点此关闭)</span>'
-      : '安卓 Chrome/Edge：菜单 &#8942; → 「安装应用」或「添加到主屏幕」<br>桌面 Chrome：地址栏右侧安装图标<br>Safari：分享 → 「添加到程序坞/主屏幕」<br><span style="opacity:.6;font-size:12px">(点此关闭)</span>';
-    tip.addEventListener('click', () => { tip.classList.add('gone'); setTimeout(() => { tip && tip.remove(); tip = null; }, 400); });
-    document.body.appendChild(tip);
-    setTimeout(() => { if(tip){ tip.classList.add('gone'); setTimeout(() => { tip && tip.remove(); tip = null; }, 400); } }, 8000);
-  });
-})();
 cv.addEventListener('contextmenu', e => e.preventDefault());
 
 window.addEventListener('resize', resize);

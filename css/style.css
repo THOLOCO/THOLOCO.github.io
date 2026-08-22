@@ -175,3 +175,9 @@ a:hover { color: #D0FFF8; }
   .link-card img, .avatar-placeholder { width: 44px; height: 44px; }
   .badge88 { margin: 0 auto; }
 }
+
+/* 玩具箱：点头像进入（悬停提示） */
+.link-card a:hover img,
+.link-card a:hover .avatar-placeholder {
+  border-color: #FFFF00;
+}

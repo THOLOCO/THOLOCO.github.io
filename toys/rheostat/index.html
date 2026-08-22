@@ -321,9 +321,35 @@
                 width: 60px;
             }
         }
+
+        /* —— 返回上一页（与页面风格一致） —— */
+        #back-btn {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 40;
+            padding: 8px 14px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(20, 20, 40, 0.72);
+            color: var(--text);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .25s ease;
+        }
+        #back-btn:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #ffcf9e;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
+    <a href="../../toys.html" onclick="history.back(); return false;" id="back-btn">← 返回上一页</a>
     <div id="hint-text">🖱️ 拖拽滑块调节电阻 · 🔊 升旗曲BGM · 左侧闪烁强光</div>
     <div id="canvas-container"></div>
 
