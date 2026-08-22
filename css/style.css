@@ -144,3 +144,34 @@ a:hover { color: #D0FFF8; }
 }
 .apply-desc { color: #CCCCCC; font-size: 12px; }
 .apply-email { color: #00FF00; font-weight: bold; }
+
+/* ---------- 移动端适配（现代浏览器生效；IE6 不识别 @media，自动保持桌面版） ---------- */
+@media screen and (max-width: 980px) {
+
+  /* 所有表格拉满屏幕宽，去掉固定 960 */
+  table { width: 100% !important; }
+
+  /* 主框架 + 标题区的单元格：从并排变为上下堆叠 */
+  td.sidebar, td.content, td[valign="top"], td[align="center"] {
+    display: block;
+    width: auto !important;
+  }
+
+  /* 标题字号按比例缩小 */
+  td font[size="7"] { font-size: 34px; }
+  td font[size="6"] { font-size: 28px; }
+  td font[size="5"] { font-size: 20px; }
+  td font[size="4"] { font-size: 17px; }
+  td font[size="3"] { font-size: 14px; }
+
+  /* 点唱机：按钮与曲目更适合手指点击 */
+  .music-player { padding: 12px; }
+  .track-link { font-size: 14px; padding: 8px 8px; }
+  .player-controls .btn { font-size: 14px; padding: 8px 14px; margin: 4px 4px; }
+  .track-info { height: 24px; }
+  .track-info marquee { font-size: 14px; line-height: 24px; }
+
+  /* 友链卡片 */
+  .link-card img, .avatar-placeholder { width: 44px; height: 44px; }
+  .badge88 { margin: 0 auto; }
+}

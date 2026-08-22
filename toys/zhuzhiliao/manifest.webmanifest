@@ -1,0 +1,16 @@
+{
+  "name": "竹知了",
+  "short_name": "竹知了",
+  "description": "一转就哇哇叫的传统玩具，Web 模拟版",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a1028",
+  "theme_color": "#0a1028",
+  "icons": [
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
