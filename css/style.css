@@ -1,183 +1,291 @@
 /* ============================================================
-   镜花拾光 · style.css —— 兼容 Internet Explorer 6
-   铁律：不用 border-radius / box-shadow / opacity / rgba /
-   CSS动画 / flex / max-width / position:fixed / :hover(非a标签)
+   TOLOC ROOM · Liquid Glass 风格（Apple 液态玻璃 2025）
+   —— 保留原布局结构（表格 + 原类名），整体替换视觉层 ——
+   不再兼容 IE6：backdrop-filter / border-radius / 渐变文字随意用
    ============================================================ */
 
-/* ---------- 全局 ---------- */
+/* ---------- 背景：深色 vibrant 渐变 + 光斑（毛玻璃的"底"） ---------- */
 body {
-  background-color: #008080;   /* Win98 经典桌面 Teal，致敬 98 */
-  color: #FFFFFF;
-  font-family: SimSun, "宋体", serif;   /* 中文用宋体，IE6 最稳 */
-  font-size: 14px;
+  min-height: 100vh;
   margin: 0;
-  padding: 0;
+  padding: 18px 12px 36px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC",
+               "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-size: 15px;
+  color: #eef2ff;
+  background:
+    radial-gradient(1100px 620px at 15% 8%, rgba(30, 107, 184, .38), transparent 55%),
+    radial-gradient(850px 500px at 86% 14%, rgba(0, 179, 179, .30), transparent 55%),
+    radial-gradient(950px 640px at 72% 96%, rgba(76, 175, 80, .26), transparent 55%),
+    radial-gradient(700px 480px at 24% 92%, rgba(212, 225, 87, .20), transparent 55%),
+    linear-gradient(165deg, #071c33 0%, #0a3d6e 44%, #0e2f52 100%);
+  background-attachment: fixed;
 }
 
-a { color: #8FF7F3; }
-a:visited { color: #79E4D6; }
-a:hover { color: #D0FFF8; }
+/* ---------- 文字：玻璃白（覆盖旧 font color 属性） ---------- */
+font { color: #e8ecff; }
+td { color: #e8ecff; }
 
-/* ---------- 跑马灯 ---------- */
+a {
+  color: #2ec4c4;
+  text-decoration: none;
+  transition: color .25s ease;
+}
+a:hover { color: #aef3f3; }
+a:visited { color: #2e86ab; }
+
+/* ---------- 表格容器：玻璃化（保留原布局） ---------- */
+table {
+  max-width: 960px;
+  width: 100%;
+  margin: 10px auto;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* 带边框的主表格 → 大玻璃面板 */
+table[border] {
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .16) !important;
+  border-radius: 28px;
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    0 24px 64px rgba(0, 0, 0, .45);
+  overflow: hidden;
+}
+
+td { vertical-align: top; }
+
+/* 面板单元格：更深的玻璃层 */
+.sidebar, .content, .footer, .nav-bar {
+  background: rgba(255, 255, 255, .045) !important;
+  border-radius: 18px;
+}
+
+/* ---------- 跑马灯：玻璃胶囊条 ---------- */
 .marquee-bar {
-  background: #021E1E;
-  color: #7CF7F3;
-  font-size: 12px;
-  font-weight: bold;
+  background: rgba(255, 255, 255, .09) !important;
+  border: 1px solid rgba(255, 255, 255, .15);
+  border-radius: 999px;
+  color: #dbe4ff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 6px 24px rgba(0, 0, 0, .28);
+  padding: 8px 18px;
 }
 
-/* ---------- 侧边栏 / 导航（比背景深一号的青绿面板） ---------- */
-.sidebar { background: #0B3E3E; }
+/* ---------- 分割线：流光细线 ---------- */
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .4), transparent);
+}
 
-.nav-item { background: #0B4A4A; border: 1px solid #40D9D9; }
-.nav-item a { display: block; text-decoration: none; }
-/* 注意：IE6 只认 a:hover，td 的 :hover 会被忽略（无害） */
+/* ---------- 导航 ---------- */
+.nav-item {
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 14px;
+  transition: all .3s cubic-bezier(.22, 1, .36, 1);
+}
+.nav-item:hover { background: rgba(255, 255, 255, .16); transform: translateY(-1px); }
+.nav-item a { display: block; padding: 6px 10px; border-radius: 12px; color: #dbe4ff; }
+.nav-item a:hover { color: #fff; }
 
-.content { background: #0A3333; }
-.footer { background: #111111; }
+/* ---------- 标题：白色渐变流光字 ---------- */
+td font[size="7"],
+td font[size="6"] {
+  display: inline-block;
+  letter-spacing: .02em;
+  background: linear-gradient(120deg, #ffffff 25%, #3a8fd4 60%, #2ec4c4 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  text-shadow: 0 8px 30px rgba(120, 180, 255, .35);
+}
+td font[size="5"] { color: #cfe0ff; }
+td font[size="4"] { color: #dce7ff; }
+td font[size="3"] { color: #c3d0ea; }
+td font[size="2"] { color: #d4ddf5; }
+td font[size="1"] { color: #9fb0d0; }
 
-/* ---------- 88×31 按钮占位 ---------- */
+/* ---------- 88×31 徽章：小玻璃片 ---------- */
 .badge88 {
+  display: inline-block;
   width: 88px;
   height: 31px;
-  background: #000000;
-  border: 1px solid #40D9D9;
-  color: #7CF7F3;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 9px;
+  color: #dbe4ff;
   font-size: 10px;
-  text-align: center;
   line-height: 14px;
+  text-align: center;
   padding-top: 3px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 4px 12px rgba(0, 0, 0, .25);
 }
 
 /* ---------- ★ 点唱机 ---------- */
 .music-player {
-  border: 2px outset #008080;   /* Win98 窗口质感边框 */
-  background: #000000;
-  padding: 10px;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 22px;
+  backdrop-filter: blur(28px) saturate(170%);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 12px 36px rgba(0, 0, 0, .35);
+  padding: 16px;
   text-align: center;
   margin-top: 10px;
 }
+.player-title { color: #fff; font-size: 14px; font-weight: 600; letter-spacing: .08em; margin-bottom: 6px; }
 
-.player-title {
-  display: block;
-  color: #7CF7F3;
-  font-size: 13px;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-
-/* 走字屏 */
 .track-info {
-  width: 100%;
-  height: 18px;
+  background: rgba(0, 0, 0, .28);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 12px;
+  height: 22px;
   overflow: hidden;
-  background: #111111;
-  border: 1px inset #2F5E5E;
   margin-bottom: 8px;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, .35);
 }
-.track-info marquee { color: #AFFFF6; font-size: 12px; line-height: 18px; }
+.track-info marquee { color: #aef3f3; font-size: 13px; line-height: 22px; }
 
-/* 曲目列表 */
-.track-list { list-style: none; margin: 0 0 8px 0; padding: 0; }
-.track-list li { margin: 2px 0; }
+.track-list { list-style: none; margin: 0 0 10px 0; padding: 0; }
+.track-list li { margin: 3px 0; }
 .track-link {
   display: block;
   text-decoration: none;
-  color: #AFFFF6;
-  font-size: 12px;
-  background: #0C3333;
-  border: 1px solid #0C6666;
-  padding: 3px 6px;
+  color: #dbe4ff;
+  font-size: 13px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 12px;
+  padding: 7px 10px;
   text-align: left;
+  transition: all .3s cubic-bezier(.22, 1, .36, 1);
 }
-.track-link:hover { color: #FFFFFF; background: #0F6A6A; }  /* a:hover，IE6 有效 */
-.track-link.playing { color: #FFFF00; font-weight: bold; background: #0C6666; }
+.track-link:hover { background: rgba(255, 255, 255, .14); color: #fff; transform: translateY(-1px); }
+.track-link.playing {
+  color: #fff;
+  font-weight: 600;
+  background: linear-gradient(120deg, rgba(46, 196, 196, .38), rgba(58, 143, 212, .38));
+  border-color: rgba(110, 203, 255, .45);
+}
 
-/* 控制按钮（outset/inset 边框是 IE6 时代经典质感） */
-.player-controls { margin: 6px 0 4px 0; }
+.player-controls { margin: 8px 0 4px; }
 .player-controls .btn {
-  background: #0C6666;
-  color: #DFFFFF;
-  border: 2px outset #098080;
-  padding: 3px 10px;
-  font-size: 12px;
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13px;
   cursor: pointer;
-  margin: 0 3px;
-  font-family: SimSun, "宋体", serif;
+  margin: 0 4px;
+  font-family: inherit;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+  transition: all .3s cubic-bezier(.22, 1, .36, 1);
 }
+.player-controls .btn:hover { background: rgba(255, 255, 255, .22); transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0, 0, 0, .3); }
+.player-controls .btn:active { transform: translateY(0) scale(.97); }
 
-.player-hint { color: #666666; font-size: 10px; margin-top: 4px; }
+.player-hint { color: #8fa0c4; font-size: 10px; margin-top: 4px; }
 
-/* ---------- ★ 友情链接页 ---------- */
+/* ---------- ★ 友情链接 / 玩具箱卡片 ---------- */
 .link-table { width: 100%; border: 0; }
 .link-card {
-  background: #0A3333;
-  border: 1px solid #098080;
-  padding: 6px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 18px;
+  padding: 10px;
+  transition: all .3s cubic-bezier(.22, 1, .36, 1);
 }
-.link-card img {
+.link-card:hover { background: rgba(255, 255, 255, .11); transform: translateY(-1px); }
+.link-card img, .avatar-placeholder {
   width: 50px;
   height: 50px;
-  border: 1px solid #7FF5F5;
-  vertical-align: middle;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
 }
 .avatar-placeholder {
-  width: 50px;
-  height: 50px;
-  background: #0C6666;
-  border: 1px solid #7FF5F5;
-  color: #7CF7F3;
-  font-size: 10px;
-  text-align: center;
-  line-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+  font-size: 14px;
 }
-.link-name { color: #FFFF00; font-weight: bold; font-size: 14px; }
-.link-desc { color: #CCCCCC; font-size: 12px; }
-.link-url { color: #888888; font-size: 12px; }
-
-/* 申请友链 */
-.apply-area {
-  background: #0B3E3E;
-  border: 1px dashed #40D9D9;   /* IE6 支持 dashed */
-  padding: 10px;
-  text-align: center;
-}
-.apply-desc { color: #CCCCCC; font-size: 12px; }
-.apply-email { color: #00FF00; font-weight: bold; }
-
-/* ---------- 移动端适配（现代浏览器生效；IE6 不识别 @media，自动保持桌面版） ---------- */
-@media screen and (max-width: 980px) {
-
-  /* 所有表格拉满屏幕宽，去掉固定 960 */
-  table { width: 100% !important; }
-
-  /* 主框架 + 标题区的单元格：从并排变为上下堆叠 */
-  td.sidebar, td.content, td[valign="top"], td[align="center"] {
-    display: block;
-    width: auto !important;
-  }
-
-  /* 标题字号按比例缩小 */
-  td font[size="7"] { font-size: 34px; }
-  td font[size="6"] { font-size: 28px; }
-  td font[size="5"] { font-size: 20px; }
-  td font[size="4"] { font-size: 17px; }
-  td font[size="3"] { font-size: 14px; }
-
-  /* 点唱机：按钮与曲目更适合手指点击 */
-  .music-player { padding: 12px; }
-  .track-link { font-size: 14px; padding: 8px 8px; }
-  .player-controls .btn { font-size: 14px; padding: 8px 14px; margin: 4px 4px; }
-  .track-info { height: 24px; }
-  .track-info marquee { font-size: 14px; line-height: 24px; }
-
-  /* 友链卡片 */
-  .link-card img, .avatar-placeholder { width: 44px; height: 44px; }
-  .badge88 { margin: 0 auto; }
-}
+.link-name { color: #fff; font-weight: 600; font-size: 15px; }
+.link-desc { color: #c3d0ea; font-size: 12.5px; }
+.link-url { color: #8fa0c4; font-size: 12px; }
 
 /* 玩具箱：点头像进入（悬停提示） */
 .link-card a:hover img,
 .link-card a:hover .avatar-placeholder {
-  border-color: #FFFF00;
+  border-color: #2ec4c4;
+  box-shadow: 0 0 18px rgba(46, 196, 196, .5);
+}
+
+/* 申请友链 */
+.apply-area {
+  background: rgba(255, 255, 255, .06);
+  border: 1px dashed rgba(255, 255, 255, .32);
+  border-radius: 16px;
+  padding: 14px;
+  text-align: center;
+}
+.apply-desc { color: #c3d0ea; font-size: 12.5px; }
+.apply-email { color: #2ec4c4; font-weight: 600; }
+
+/* ---------- 页脚 ---------- */
+.footer { text-align: center; }
+.footer font { color: #9fb0d0; }
+
+/* ---------- 特殊元素 ---------- */
+/* 覆盖旧内联绿色时钟 */
+#clock { color: #aef3f3 !important; font-family: ui-monospace, "SF Mono", Consolas, monospace; }
+#fortune, #runningDays { color: #ffd60a; font-weight: 700; }
+
+/* ---------- 移动端适配（≤980px 堆叠） ---------- */
+@media screen and (max-width: 980px) {
+  body { padding: 10px 8px 24px; }
+  table { width: 100% !important; margin: 8px auto; }
+  table[border] { border-radius: 20px; }
+  td.sidebar, td.content, td[valign="top"], td[align="center"] {
+    display: block;
+    width: auto !important;
+  }
+  td font[size="7"], td font[size="6"] { font-size: 30px; }
+  td font[size="5"] { font-size: 20px; }
+  td font[size="4"] { font-size: 17px; }
+  .track-link { font-size: 14px; padding: 9px 10px; }
+  .player-controls .btn { font-size: 14px; padding: 10px 16px; margin: 4px; }
+  .track-info { height: 24px; }
+  .track-info marquee { font-size: 14px; line-height: 24px; }
+  .link-card img, .avatar-placeholder { width: 44px; height: 44px; }
+  .badge88 { margin: 0 auto; }
+}
+
+/* ---------- 渐变流光文字（替代旧 JS 换色） ---------- */
+.grad-text {
+  display: inline-block;
+  font-weight: 700;
+  background: linear-gradient(90deg, #3a8fd4, #2ec4c4, #66bb44, #d4e157, #3a8fd4);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradflow 6s linear infinite;
+}
+@keyframes gradflow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
 }
