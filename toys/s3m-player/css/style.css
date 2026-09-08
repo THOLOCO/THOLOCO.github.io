@@ -1,0 +1,148 @@
+/* aryx · S3M tracker player —— 复古终端风 */
+:root {
+  --bg: #0b0f14;
+  --panel: #121a23;
+  --panel2: #0f1620;
+  --line: #1f2c39;
+  --txt: #c8d6e5;
+  --dim: #6d7f92;
+  --acc: #4fd6a8;
+  --acc2: #ffce54;
+  --cyan: #54c7ec;
+  --red: #ff7a7a;
+  --mono: "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+
+/* 关键：锁定页面自身滚动，只有谱面容器内部滚动 → 顶部控件永不被顶走 */
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden;
+  background: var(--bg); color: var(--txt);
+  font: 13px/1.45 var(--mono); }
+body { display: flex; flex-direction: column; }
+
+header { flex: none; display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  padding: 10px 16px; background: linear-gradient(180deg,#101a26,#0c131d);
+  border-bottom: 1px solid var(--line); }
+.titles h1 { margin: 0; font-size: 20px; letter-spacing: 1px; color: var(--acc);
+  text-shadow: 0 0 12px rgba(79,214,168,.35); }
+.sub { font-size: 11px; color: var(--dim); }
+.songname { font-size: 14px; color: var(--acc2); font-weight: 600; margin-top: 2px;
+  max-width: 46vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.transport { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.read { color: var(--acc2); font-size: 12px; }
+
+button { font: inherit; color: var(--txt); background: #1a2634; border: 1px solid #2a3b4d;
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: .12s; }
+button:hover { border-color: var(--acc); color: #fff; }
+button.active { background: #173a30; border-color: var(--acc); color: var(--acc); }
+button.big { background: #174d3a; border-color: var(--acc); color: #d9fff0;
+  font-weight: 700; min-width: 76px; }
+button.big:hover { box-shadow: 0 0 14px rgba(79,214,168,.4); }
+button.muted { opacity: .35; }
+
+/* main：占满剩余高度；左栏可滚，右栏谱面内部滚 */
+main { flex: 1; display: flex; min-height: 0; }
+aside { width: 310px; flex: none; overflow-y: auto; padding: 12px;
+  border-right: 1px solid var(--line); background: var(--panel2);
+  transition: all .2s; }
+main.panel-hidden aside { display: none; }
+aside section { margin-bottom: 16px; }
+aside h3 { margin: 0 0 8px; font-size: 12px; color: var(--cyan);
+  text-transform: uppercase; letter-spacing: 1px; }
+.tiny { font-size: 10px; color: var(--dim); text-transform: none; letter-spacing: 0; }
+
+.btnrow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 6px 0; }
+.hint { font-size: 11px; color: var(--dim); display:flex; align-items:center; gap:6px; margin-top:6px; flex-wrap:wrap;}
+.hint input { background:#0b1016; border:1px solid var(--line); color:var(--txt);
+  width:52px; padding:3px 6px; border-radius:4px; font:inherit; }
+.hintxt { font-size:10px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.pat-chip { padding: 4px 9px; font-size: 12px; }
+.pat-chip.active { background: #1d3a55; border-color: var(--cyan); color: var(--cyan); }
+
+.slider { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: 12px; }
+.slider label { width: 40px; color: var(--dim); flex: none; }
+.slider input[type=range] { flex: 1; accent-color: var(--acc); }
+.slider b { width: 52px; text-align: right; color: var(--acc2); font-weight: 400; }
+
+.inslist { display: flex; flex-direction: column; gap: 4px; }
+.ins-chip { text-align: left; font-size: 11px; padding: 4px 8px; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; }
+.ins-chip:hover { border-color: var(--acc2); }
+
+/* score area：flex 列 + min-height:0 以便内部滚动生效 */
+.score { flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.statusbar { flex: none; padding: 6px 12px; color: var(--acc2); font-size: 12px;
+  border-bottom: 1px solid var(--line); background: #0e151f;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.statusbar .right { margin-left:auto; display:flex; align-items:center; gap:8px; }
+.followtoggle { display:inline-flex; align-items:center; gap:6px; font-size:11px; color:var(--dim); cursor:pointer; user-select:none;}
+.followtoggle input { accent-color: var(--acc); }
+
+.gridwrap { flex: 1; overflow: auto; background: var(--panel); min-height: 0; position: relative; }
+#grid { border-collapse: collapse; width: max-content; min-width: 100%; font-size: 11.5px; }
+#grid thead th { position: sticky; top: 0; background: #16202c; z-index: 2;
+  border: 1px solid var(--line); padding: 3px 6px; text-align: center; color: var(--cyan);
+  font-weight: 400; cursor: pointer; user-select: none; }
+#grid thead th:first-child { left: 0; z-index: 3; color: var(--dim); }
+#grid td { border: 1px solid #18242f; padding: 1px 4px; white-space: nowrap;
+  min-width: 118px; color: var(--txt); font-size: 11px; }
+#grid td.empty { color: #202c38; }
+#grid td.rownum { position: sticky; left: 0; background: #101820; text-align: right;
+  color: var(--dim); min-width: 40px; font-size: 10px; z-index: 1; }
+#grid tr.cur td { background: #1e3a2d !important; color: #eafff4; }
+#grid tr.cur td.rownum { background: #173524 !important; color: var(--acc); }
+#grid tbody tr:nth-child(even):not(.cur) td { background: rgba(255,255,255,.02); }
+#grid tbody tr:nth-child(odd):not(.cur) td { background: rgba(0,0,0,.14); }
+#grid td:hover { background: #223042; }
+
+/* 音符文字与力度(力度徽章按大小上色：小=暖红，大=亮绿) */
+#grid td .n { color: #e8f1fb; }
+#grid td .i { color: #8fd0ff; }
+#grid td .fx { color: #d9a3ff; }
+#grid td .v { font-weight: 700; padding: 0 1px; border-radius: 2px; }
+
+.msg { flex: none; padding: 8px 12px; font-size: 11px; color: var(--dim);
+  border-top: 1px solid var(--line); background: #0e151f; }
+
+footer { flex: none; padding: 6px 16px; font-size: 10.5px; color: var(--dim);
+  border-top: 1px solid var(--line); background: #0b1016; }
+footer .small { color: #4a5a6c; margin-top: 2px; }
+footer code { color: var(--acc2); }
+
+@media (max-width: 900px) {
+  main { flex-direction: column; }
+  aside { width: 100%; max-height: 38vh; border-right: none; border-bottom: 1px solid var(--line); }
+  header { flex-direction: column; align-items: flex-start; }
+  .transport { margin-left: 0; }
+}
+
+/* 表头声道电平 VU 条 */
+.chvu { height: 4px; width: 100%; background: rgba(255,255,255,.08); margin-top: 3px; border-radius: 2px; overflow: hidden; }
+#grid thead th { position: sticky; top: 0; }
+.chvu { transition: width .06s; }
+
+
+/* —— 返回上一页 —— */
+#back-btn {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 60;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(18, 26, 35, .85);
+  color: var(--acc);
+  font: 12px/1.4 var(--mono);
+  text-decoration: none;
+  letter-spacing: .04em;
+  transition: all .25s ease;
+}
+#back-btn:hover {
+  background: rgba(79, 214, 168, .18);
+  border-color: var(--acc);
+  color: #b8ffe8;
+  box-shadow: 0 0 16px rgba(79, 214, 168, .35);
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOLOC S3M PLAYER</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a href="../../toys.html" onclick="history.back(); return false;" id="back-btn">← 返回上一页</a>
+<header>
+  <div class="titles">
+    <h1 id="brand">TOLOC S3M PLAYER</h1>
+    <div class="songname" id="title">—</div>
+    <div class="sub" id="meta"></div>
+    <div class="sub" id="songinfo"></div>
+  </div>
+  <div class="transport">
+    <button id="play" class="big">播放</button>
+    <button id="stop">■ 停止</button>
+    <button id="togglepanel" title="显示/隐藏左侧控制面板">☰ 面板</button>
+    <button id="uploadbtn" title="上传 S3M 文件播放">📂 上传</button>
+    <input type="file" id="fileinput" accept=".s3m" style="display:none">
+    <span class="read" id="pos">—</span>
+  </div>
+</header>
+
+<main>
+  <!-- 左列：控制台 -->
+  <aside>
+    <section>
+      <h3>播放模式</h3>
+      <div class="btnrow">
+        <button id="mode-song" class="active">▶ 全曲</button>
+        <button id="mode-pat">⟲ 单段循环</button>
+      </div>
+      <div class="hint" id="rowpicker" style="display:none">
+        起始行 <input id="startrow" type="number" min="0" max="63" value="0"
+          onchange="ui.startRow=Math.max(0,Math.min(63,+this.value||0))">
+        <span class="hintxt">（点谱面行也可设定）</span>
+      </div>
+    </section>
+
+    <section>
+      <h3>选择 Pattern <span class="tiny">（点击选中）</span></h3>
+      <div id="patternlist" class="chips"></div>
+    </section>
+
+    <section>
+      <h3>速度</h3>
+      <div class="slider">
+        <label>倍速</label>
+        <input id="speed" type="range" min="10" max="300" value="100">
+        <b id="speedv">100%</b>
+      </div>
+      <div class="slider">
+        <label>音量</label>
+        <input id="volume" type="range" min="0" max="100" value="100">
+        <b id="volumev">100%</b>
+      </div>
+      <div class="read" id="stats"></div>
+    </section>
+
+    <section>
+      <h3>音高调整</h3>
+      <div class="slider">
+        <label>半音</label>
+        <input id="semi" type="range" min="-12" max="12" value="0">
+        <b id="semiv">0 st</b>
+      </div>
+      <div class="slider">
+        <label>音分</label>
+        <input id="cents" type="range" min="-100" max="100" step="1" value="0">
+        <b id="centsv">0 ct</b>
+      </div>
+      <div class="btnrow">
+        <button id="pitchreset">重置</button>
+        <span class="read" id="pitchread">±0.00 半音</span>
+      </div>
+    </section>
+
+    <section>
+      <h3>采样试听 <span class="tiny">（点击播放，再点停）</span></h3>
+      <div id="instrlist" class="inslist"></div>
+    </section>
+  </aside>
+
+  <!-- 右区：谱面 -->
+  <section class="score">
+    <div class="statusbar">
+      <span id="status">加载中…</span>
+      <div id="progresswrap" style="display:none;flex:1;min-width:120px;height:6px;background:#1a2634;border-radius:3px;overflow:hidden">
+        <div id="progressbar" style="width:0%;height:100%;background:linear-gradient(90deg,#4fd6a8,#54c7ec);transition:width .15s"></div>
+      </div>
+      <div class="right">
+        <label class="followtoggle"><input type="checkbox" id="follow" checked> 自动跟随</label>
+        <span id="diag" style="color:#ff7a7a;font-weight:700"></span>
+        <span class="read" id="posbar">—</span>
+      </div>
+    </div>
+    <div class="gridwrap">
+      <table id="grid"></table>
+    </div>
+    <div class="msg" id="message"></div>
+  </section>
+</main>
+
+<footer>
+  <div>行=64 · 12 通道（6 组立体声对）· 作者把签名/日期/工具名藏在采样名里：k.koch 29.03.95 — 由「Space Tracker 1.0 BETA」制作</div>
+  <div class="small">本项目为格式/合成引擎分离架构：<code>tracker.js</code> 通用模块模型，<code>engine.js</code> 通用合成引擎（效果语义经 EffectProfile 注入，便于将来扩展 MOD/IT）。</div>
+</footer>
+
+<script>
+// ===== 极简自检（不依赖外部脚本）=====
+(function(){
+  function d(t){ var e=document.getElementById("diag"); if(e) e.textContent=t; }
+  d("js0");
+  var t0=+new Date();
+  window.__BOOT_TS=t0;
+  d("js1");
+  document.addEventListener("DOMContentLoaded",function(){ d("DOM@ "+(new Date()-t0)+"ms"); });
+  window.addEventListener("load",function(){ d("LOAD@ "+(new Date()-t0)+"ms"); });
+})();
+</script>
+<script src="js/s3m-parser.js"></script>
+<script src="js/tracker.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
